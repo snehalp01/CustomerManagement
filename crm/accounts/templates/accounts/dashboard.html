@@ -18,14 +18,18 @@
                     <th scope="col">#</th>
                     <th scope="col">Customer</th>
                     <th scope="col">Orders</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
+                  {% for c in customers %}
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
+                    <th scope="row">{{c.id}}</th>
+                    <td><a href=""> {{c.name}}</a></td>
+                    <td>{{c.phone}}</td>
+                    <td> <a href="{% url 'customer' c.id %}"><button class="btn btn-primary">View</button></a></td>
                   </tr>
+                  {% endfor %}
                 </tbody>
               </table>
         </div>
@@ -35,7 +39,7 @@
       <div class="card">
         <div class="card-body">
           <div class="d-grid gap-2">
-            <button class="btn btn-primary" type="button">Place Order</button>
+            
           </div>
             <table class="table table-success table-striped">
                 <thead>
@@ -49,14 +53,16 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% for o in orders %}
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>Otto</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <th scope="row">{{o.id}}</th>
+                    <td>{{o.product.name}}</td>
+                    <td>{{o.date_created}}</td>
+                    <td>{{o.status}}</td>
+                    <td><a href="{% url 'updateOrder' o.id %}"><button class="btn btn-primary">Update</button></a></td>
+                    <td><a href="{% url 'deleteorder' o.id %}"><button class="btn btn-danger">Delete</button></a></td>
                   </tr>
+                  {% endfor %}
                 </tbody>
               </table>
           

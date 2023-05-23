@@ -1,15 +1,19 @@
 {% extends 'base.html ' %}
 
+{% block title %}
+<title>Customer Page</title>
+{%endblock%}
+
 {% block content %}
     <br>
 
     <div class="row">
         <div class="col-md">
             <div class="card card-body">
-                <h5>Customer:</h5>
+                <h5>Customer: {{customer.name}}</h5>
                 <hr>
                 <a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a>
-                <a class="btn btn-outline-info  btn-sm btn-block" href="">Place New Order</a>
+                <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'placeOrder' customer.id %}">Place New Order</a>
 
             </div>
         </div>
@@ -18,8 +22,8 @@
             <div class="card card-body">
                 <h5>Contact Information</h5>
                 <hr>
-                <p>Email:  </p>
-                <p>Phone:  </p>
+                <p>Email:  {{customer.email}}</p>
+                <p>Phone: {{customer.phone}} </p>
             </div>
         </div>
 
@@ -27,7 +31,7 @@
             <div class="card card-body">
                 <h5>Total Orders</h5>
                 <hr>
-                <h1 style="text-align: center;padding: 10px"></h1>
+                <h1 style="text-align: center;padding: 10px">{{total_orders}}</h1>
             </div>
         </div>
     </div>
@@ -38,7 +42,7 @@
         <div class="col">
             <div class="card card-body">
                 <form method="get">
-                <h3>FORM</h3>
+                <h3>{{order_filter.form}}</h3>
                 <button class="btn btn-primary" type="submit">Search</button>
               </form>
             </div>
@@ -59,17 +63,16 @@
                         <th>Update</th>
                         <th>Remove</th>
                     </tr>
+                    {%for o in orders%}
                     <tr>
-                        
-                        <tr>
-                        <td>name</td>
-                        <td>category</td>
-                        <td>date_createdtd>
-                        <td>date_created</td>
-                        <td><button class="btn btn-sm btn-info"><a href=""  >Update</a></button></td>
-                        <td><button class="btn btn-sm btn-danger"><a href="" >Delete</a></button></td>
-                        </tr>
+                        <td>{{o.product.name}}</td>
+                        <td>{{o.product.category}}</td>
+                        <td>{{o.date_created}}</td>
+                        <td>{{o.status}}</td>
+                        <td><a href="{% url 'updateOrder' o.id %}"><button class="btn btn-primary">Update</button></a></td>
+                    <td><a href="{% url 'deleteorder' o.id %}"><button class="btn btn-danger">Delete</button></a></td>
                     </tr>
+                    {% endfor %}
                 </table>
             </div>
         </div>

@@ -10,6 +10,10 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    name = models.CharField(max_length=10, null=True)
+    def __str__(self) -> str:
+        return self.name
 class Product(models.Model):
     CATEGORY = (
         ('indoor', 'Indoor'),
@@ -20,15 +24,21 @@ class Product(models.Model):
     category = models.CharField(max_length=300, choices=CATEGORY)
     description = models.TextField(null=True)
     date_created = models.DateTimeField(auto_now_add=True,null=True)
+    tag = models.ManyToManyField(Tag)
+    def __str__(self) -> str:
+        return self.name
+
 
 class Order(models.Model):
     STATUS =(
-        ('pend', 'Pending'),
-        ('out', 'Out for delivery'),
-        ('delivered', 'Delivered'),
-        ('canceled', 'Canceled'),
+        ('Pending','Pending'),
+        ('Out for delivery','Out for delivery'),
+        ('Delivered','Delivered'),
+        ('Canceled','Canceled'),
         )
-    # customer =
-    # product = 
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL  ,null=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     date_created = models.DateTimeField(auto_now=True,null=True)
     status = models.CharField(max_length=50, choices=STATUS)
+    def __str__(self) -> str:
+        return f"{self.product.name}--{self.customer.name}"
