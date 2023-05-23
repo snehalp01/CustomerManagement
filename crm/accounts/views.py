@@ -23,11 +23,13 @@ def productview(request):
 
 def customerview(request, id):
     context = {}
-    order_filter = OrderFilter()
     if id:
         cust = Customer.objects.get(id=id)
         orders = cust.order_set.all()
-        context = {"customer":cust, "orders":orders, "total_orders":orders.count(),"order_filter":order_filter }
+        orders_count = orders.count()
+        order_filter = OrderFilter(request.GET, queryset=orders)
+        orders = order_filter.qs
+        context = {"customer":cust, "orders":orders, "total_orders":orders_count,"order_filter":order_filter }
     return render(request,'accounts/customer.html',context)
 
 def create_order_view(request, id):
